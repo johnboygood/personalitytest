@@ -3,626 +3,761 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SBTI 风格人格测试</title>
-  <meta name="description" content="一个可直接部署的纯静态人格测试网站原型。" />
+  <title>SBTI 人格测试</title>
+  <meta name="description" content="一个简洁明亮的人格测试网站原型。" />
   <style>
     :root {
-      --bg: #f8fafc;
+      --bg: #fafaf9;
       --panel: #ffffff;
-      --panel-2: #f1f5f9;
-      --line: #e2e8f0;
-      --text: #0f172a;
-      --muted: #64748b;
-      --primary: #2563eb;
-      --primary-2: #7c3aed;
-      --green: #10b981;
-      --shadow: 0 10px 30px rgba(0,0,0,0.06);
-      --radius: 20px;
-      --max: 1180px;
+      --line: #e8e5e0;
+      --text: #1a1a18;
+      --muted: #6b6b67;
+      --hint: #9b9b96;
+      --accent: #2563eb;
+      --accent-light: #eff4ff;
+      --accent-mid: #93b8fd;
+      --green-bg: #f0faf4;
+      --green-border: #a3d9b8;
+      --green-text: #1a6640;
+      --amber-bg: #fffbf0;
+      --amber-border: #f0c96b;
+      --amber-text: #7a5200;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --max: 1100px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", Inter, system-ui, sans-serif;
       color: var(--text);
-      background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+      background: var(--bg);
       min-height: 100vh;
+      font-size: 16px;
+      line-height: 1.6;
     }
 
     a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    .hidden { display: none !important; }
 
     .wrap {
-      width: min(var(--max), calc(100% - 32px));
+      width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
     }
 
+    /* ── Topbar ── */
     .topbar {
       position: sticky;
       top: 0;
       z-index: 20;
-      backdrop-filter: blur(16px);
-      background: rgba(2,6,23,0.78);
+      background: rgba(250,250,249,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.18);
     }
 
     .topbar-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      padding: 16px 0;
+      padding: 14px 0;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      font-weight: 800;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 0 30px rgba(0,212,255,0.22);
     }
 
-    .brand small {
-      display: block;
-      color: var(--muted);
+    .brand-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .brand-sub {
       font-size: 12px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
+      color: var(--hint);
+      margin-top: 1px;
     }
 
-    .brand strong {
-      display: block;
-      font-size: 18px;
-    }
-
-    .ghost-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    .nav-btn {
+      font-size: 14px;
+      color: var(--muted);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      padding: 10px 16px;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: 0.18s ease;
-    }
-
-    .ghost-btn:hover,
-    .primary-btn:hover,
-    .answer-btn:hover,
-    .secondary-btn:hover {
-      transform: translateY(-1px);
-      opacity: 0.96;
-    }
-
-    .primary-btn,
-    .secondary-btn {
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      border: 1px solid var(--line);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
-    }
-
-    .card {
       background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      transition: background 0.15s, color 0.15s;
     }
+    .nav-btn:hover { background: #f4f3f0; color: var(--text); }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,212,255,0.06), transparent 30%, transparent 70%, rgba(109,94,252,0.06));
-      pointer-events: none;
-    }
+    /* ── Home ── */
+    .home-section { padding: 56px 0 72px; }
 
-    .hidden { display: none !important; }
-
-    .hero {
-      padding: 38px 0 24px;
-    }
-
-    .hero-grid {
+    .home-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1fr 1fr;
       gap: 24px;
-      align-items: stretch;
+      align-items: start;
     }
 
-    .hero-copy,
-    .hero-preview {
-      padding: 34px;
+    .home-copy {
+      padding-top: 8px;
     }
 
-    .pill {
+    .eyebrow-pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      padding: 10px 14px;
+      gap: 6px;
       font-size: 13px;
-      color: #c7d2fe;
-      background: rgba(99,102,241,0.12);
-      border: 1px solid rgba(99,102,241,0.22);
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1px solid var(--accent-mid);
+      border-radius: 999px;
+      padding: 5px 12px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow-pill::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
     }
 
     h1 {
-      margin: 18px 0 12px;
-      font-size: clamp(34px, 5vw, 64px);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-    }
-
-    .gradient {
-      background: linear-gradient(135deg, var(--primary), #9ae6ff 45%, var(--primary-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 18px rgba(0,212,255,0.18);
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
     }
 
     .lead {
-      margin: 0;
-      font-size: 18px;
-      line-height: 1.8;
+      font-size: 17px;
+      line-height: 1.75;
       color: var(--muted);
-      max-width: 55ch;
+      margin-bottom: 28px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--accent);
+      padding: 11px 22px;
+      border-radius: var(--radius-sm);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    .btn-ghost {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 11px 22px;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s;
+    }
+    .btn-ghost:hover { background: #f4f3f0; color: var(--text); }
+
+    .feature-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 36px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-mid);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .feature-text h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .feature-text p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Preview Card */
+    .preview-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .preview-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #f7f6f4;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--hint);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .preview-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .preview-body {
+      padding: 24px;
+    }
+
+    .result-type-badge {
+      font-size: 60px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .result-type-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1px solid var(--accent-mid);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    .score-preview {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 10px;
+    }
+
+    .score-row-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .score-bar-track {
+      height: 6px;
+      background: #f0eee9;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    /* ── Quiz ── */
+    .quiz-section { padding: 40px 0 80px; }
+
+    .quiz-shell { max-width: 680px; margin: 0 auto; }
+
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .progress-track {
+      height: 4px;
+      background: var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: inherit;
+      transition: width 0.3s ease;
+      width: 0;
+    }
+
+    .question-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 36px 36px 32px;
+    }
+
+    .q-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--hint);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .q-title {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+
+    .answer-grid { display: grid; gap: 10px; }
+
+    .answer-btn {
+      text-align: left;
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--line);
+      background: var(--panel);
+      transition: border-color 0.15s, background 0.15s, transform 0.12s;
+      cursor: pointer;
+    }
+
+    .answer-btn:hover {
+      border-color: var(--accent-mid);
+      background: var(--accent-light);
+      transform: translateY(-1px);
+    }
+
+    .answer-btn .a-main {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .answer-btn .a-hint {
+      display: block;
+      font-size: 13px;
+      color: var(--hint);
+    }
+
+    /* ── Result ── */
+    .result-section { padding: 40px 0 80px; }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .result-main-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 36px;
+    }
+
+    .result-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green-text);
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: 999px;
+      padding: 4px 11px;
+      margin-bottom: 20px;
+    }
+
+    .result-code {
+      font-size: clamp(60px, 12vw, 96px);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .result-name {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .result-summary {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--line);
     }
 
     .action-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 26px;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .feature-item {
-      padding: 22px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--line);
-    }
-
-    .feature-item h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
-    }
-
-    .feature-item p,
-    .result-block p,
-    .result-note,
-    .quiz-meta,
-    .score-grid .score-item span {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .mock-result {
-      border-radius: 26px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      padding: 1px;
-      box-shadow: 0 0 40px rgba(0,212,255,0.12);
-    }
-
-    .mock-inner {
-      border-radius: 25px;
-      background: #020617;
-      padding: 30px;
-    }
-
-    .mock-type {
-      font-size: 62px;
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      margin: 12px 0;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
-    .tag {
-      border-radius: 999px;
-      padding: 8px 12px;
+    .result-note {
       font-size: 13px;
-      background: rgba(255,255,255,0.06);
+      color: var(--hint);
+    }
+
+    .result-side { display: grid; gap: 16px; }
+
+    .side-card {
+      background: var(--panel);
       border: 1px solid var(--line);
-      color: #e2e8f0;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 22px 24px;
     }
 
-    .section {
-      padding: 24px 0 40px;
-    }
-
-    .quiz-shell {
-      max-width: 840px;
-      margin: 0 auto;
-    }
-
-    .quiz-card,
-    .result-layout,
-    .result-side,
-    .result-main {
-      padding: 28px;
-    }
-
-    .quiz-card {
-      background-image:
-        linear-gradient(rgba(56,189,248,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(56,189,248,0.06) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(4,12,32,0.94), rgba(3,10,28,0.8));
-      background-size: 24px 24px, 24px 24px, auto;
-      background-position: center center, center center, center center;
-    }
-
-    .quiz-meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
+    .side-card h3 {
       font-size: 14px;
-    }
-
-    .progress-bar {
-      height: 12px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.08);
-      margin-bottom: 22px;
-    }
-
-    .progress-inner {
-      height: 100%;
-      width: 0;
-      border-radius: inherit;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      transition: width 0.25s ease;
-    }
-
-    .eyebrow {
-      color: #c7d2fe;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .question-title {
-      margin: 0;
-      font-size: clamp(26px, 4vw, 38px);
-      line-height: 1.5;
-    }
-
-    .answer-list {
-      display: grid;
-      gap: 14px;
-      margin-top: 26px;
-    }
-
-    .answer-btn {
-      border: 1px solid var(--line);
-      background: rgba(15,23,42,0.76);
+      font-weight: 600;
       color: var(--text);
-      text-align: left;
-      padding: 18px 20px;
-      border-radius: 22px;
-      cursor: pointer;
-      transition: 0.18s ease;
+      margin-bottom: 12px;
     }
 
-    .answer-btn strong {
-      display: block;
-      font-size: 17px;
-      margin-bottom: 6px;
-    }
-
-    .answer-btn small {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 22px;
-    }
-
-    .result-main {
-      border-radius: calc(var(--radius) + 2px);
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      padding: 1px;
-    }
-
-    .result-main-inner {
-      border-radius: calc(var(--radius) + 1px);
-      background: #020617;
-      padding: 34px;
-      height: 100%;
-    }
-
-    .result-type-code {
-      margin: 12px 0 8px;
-      font-size: clamp(54px, 10vw, 90px);
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -0.05em;
-    }
-
-    .result-type-name {
-      font-size: 32px;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-
-    .result-summary {
-      font-size: 18px;
-      line-height: 1.9;
-      color: #e2e8f0;
-    }
-
-    .result-actions {
+    .chip-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .result-side {
-      display: grid;
-      gap: 18px;
-      padding: 0;
-      background: transparent;
-      border: 0;
-      box-shadow: none;
-      backdrop-filter: none;
-    }
-
-    .result-block {
-      padding: 24px;
-    }
-
-    .result-block h3 {
-      margin: 0 0 14px;
-      font-size: 22px;
-    }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 7px;
     }
 
     .chip {
-      border-radius: 999px;
-      padding: 8px 12px;
       font-size: 13px;
-      color: #d1fae5;
-      background: rgba(16,185,129,0.1);
-      border: 1px solid rgba(16,185,129,0.2);
+      font-weight: 500;
+      color: var(--green-text);
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: 999px;
+      padding: 4px 10px;
     }
 
-    .warning-list {
-      display: grid;
-      gap: 10px;
+    .caution-list { display: grid; gap: 7px; }
+
+    .caution-item {
+      font-size: 13px;
+      color: var(--amber-text);
+      background: var(--amber-bg);
+      border: 1px solid var(--amber-border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      line-height: 1.5;
     }
 
-    .warning-item {
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--line);
+    .advice-text {
+      font-size: 14px;
       color: var(--muted);
       line-height: 1.7;
     }
 
-    .score-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-top: 18px;
-    }
+    .score-table { display: grid; gap: 12px; }
 
-    .score-item {
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--line);
-    }
+    .score-row {}
 
-    .score-item strong {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-
-    .footer {
-      padding: 26px 0 40px;
+    .score-row-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
       color: var(--muted);
-      font-size: 14px;
+      margin-bottom: 6px;
     }
 
-    @media (max-width: 980px) {
-      .hero-grid,
-      .result-grid,
-      .features {
-        grid-template-columns: 1fr;
-      }
+    .score-row-head span:last-child { color: var(--hint); }
+
+    .score-track {
+      height: 6px;
+      background: #f0eee9;
+      border-radius: 999px;
+      overflow: hidden;
     }
 
-    @media (max-width: 640px) {
-      .wrap { width: min(var(--max), calc(100% - 20px)); }
-      .topbar-inner { flex-direction: column; align-items: flex-start; }
-      .hero-copy,
-      .hero-preview,
-      .quiz-card,
-      .result-main-inner,
-      .result-block { padding: 22px; }
-      .score-grid { grid-template-columns: repeat(2, 1fr); }
-      .question-title { line-height: 1.4; }
-      .result-type-name { font-size: 26px; }
-      .result-summary { font-size: 16px; }
+    .score-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 24px 0 40px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--hint);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .home-grid,
+      .result-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .question-card { padding: 24px 20px; }
+      .result-main-card { padding: 24px 20px; }
+      .q-title { font-size: 22px; }
+      .result-code { font-size: 64px; }
+      .result-name { font-size: 22px; }
     }
   </style>
 </head>
 <body>
+
   <header class="topbar">
     <div class="wrap topbar-inner">
       <div class="brand">
         <div class="brand-mark">测</div>
         <div>
-          <small>neural profile system</small>
-          <strong>SBTI 科技风人格测试</strong>
+          <div class="brand-name">SBTI 人格测试</div>
+          <div class="brand-sub">Neural Profile System</div>
         </div>
       </div>
-      <button id="backHomeBtn" class="ghost-btn hidden">返回首页</button>
+      <button id="backHomeBtn" class="nav-btn hidden">← 返回首页</button>
     </div>
   </header>
 
   <main>
-    <section id="homeView" class="hero">
-      <div class="wrap hero-grid">
-        <div class="card hero-copy">
-          <div class="pill">12 道题 · 约 2 分钟 · 赛博科技风静态原型</div>
-          <h1>
-            做一个 <span class="gradient">未来感更强</span><br />
-            的人格测试网站
-          </h1>
+
+    <!-- HOME -->
+    <section id="homeView" class="home-section">
+      <div class="wrap home-grid">
+
+        <div class="home-copy">
+          <div class="eyebrow-pill">12 道题 · 约 2 分钟</div>
+          <h1>发现你真实的<br>思维方式</h1>
           <p class="lead">
-            这是一版不用 React、也不用后端的纯静态测试站原型。整体视觉改成了偏赛博、偏科技产品的方向，后面你只需要继续替换题目、结果名称和文案，就能快速做成自己的测试产品。
+            一个纯静态、可直接部署的人格测试原型。题目、结果和文案都可以替换，快速做成你自己的测试产品。
           </p>
-          <div class="action-row">
-            <button id="startBtn" class="primary-btn">立即开始测试</button>
-            <a href="#features" class="secondary-btn">看看包含什么</a>
+          <div class="cta-row">
+            <button id="startBtn" class="btn-primary">开始测试</button>
+            <a href="#features" class="btn-ghost">了解更多</a>
           </div>
 
-          <div id="features" class="features">
+          <div id="features" class="feature-list">
             <div class="feature-item">
-              <h3>题库可直接替换</h3>
-              <p>现在是 12 道示例题，你后面可以改成 20、36 或更多，结构已经搭好。</p>
+              <div class="feature-icon">
+                <svg viewBox="0 0 16 16"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
+              </div>
+              <div class="feature-text">
+                <h3>题库可替换</h3>
+                <p>现有 12 道示例题，结构已搭好，改成 20、36 道都没问题。</p>
+              </div>
             </div>
             <div class="feature-item">
-              <h3>结果页有传播感</h3>
-              <p>类型名、总结、优势、提醒和建议都拆开了，适合继续做分享文案。</p>
+              <div class="feature-icon">
+                <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8l2 2 4-4"/></svg>
+              </div>
+              <div class="feature-text">
+                <h3>结果页有传播感</h3>
+                <p>类型名、总结、优势和建议都拆开，适合继续做分享文案。</p>
+              </div>
             </div>
             <div class="feature-item">
-              <h3>后续可接 AI 解读</h3>
-              <p>等你以后要升级，可以在结果页后面接 AI，生成更长的个性化分析。</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="card hero-preview">
-          <div class="pill">示例结果卡 / Result Preview</div>
-          <div class="mock-result" style="margin-top:16px;">
-            <div class="mock-inner">
-              <div style="color:var(--muted);font-size:14px;">你的类型可能是</div>
-              <div class="mock-type">ENTP</div>
-              <div style="font-size:30px;font-weight:800;">创意型破局者</div>
-              <p class="lead" style="font-size:16px;margin-top:12px;max-width:none;">
-                你很擅长发现新可能，脑子转得快，喜欢从不同角度拆解规则，往往是群体里那个点子最多的人。
-              </p>
-              <div class="tag-list">
-                <span class="tag">点子多</span>
-                <span class="tag">反应快</span>
-                <span class="tag">善于破局</span>
-                <span class="tag">适合创新场景</span>
+              <div class="feature-icon">
+                <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+              </div>
+              <div class="feature-text">
+                <h3>可接 AI 深度解读</h3>
+                <p>结果页后面可以接 AI，生成更长的个性化分析报告。</p>
               </div>
             </div>
           </div>
         </div>
+
+        <div class="preview-card">
+          <div class="preview-header">
+            <div class="preview-label">示例结果预览</div>
+            <div class="preview-title">你的测试结果可能长这样</div>
+          </div>
+          <div class="preview-body">
+            <div class="result-type-badge">ENTP</div>
+            <div class="result-type-name">创意型破局者</div>
+            <p class="result-desc">你很擅长发现新可能，脑子转得快，喜欢从不同角度拆解规则，往往是群体里点子最多的人。</p>
+            <div class="tag-row">
+              <span class="tag">点子多</span>
+              <span class="tag">反应快</span>
+              <span class="tag">善于破局</span>
+              <span class="tag">创新场景</span>
+            </div>
+            <div class="score-preview">
+              <div>
+                <div class="score-row-label"><span>外向 E</span><span>内向 I</span></div>
+                <div class="score-bar-track"><div class="score-bar-fill" style="width:70%"></div></div>
+              </div>
+              <div>
+                <div class="score-row-label"><span>直觉 N</span><span>现实 S</span></div>
+                <div class="score-bar-track"><div class="score-bar-fill" style="width:65%"></div></div>
+              </div>
+              <div>
+                <div class="score-row-label"><span>理性 T</span><span>感受 F</span></div>
+                <div class="score-bar-track"><div class="score-bar-fill" style="width:60%"></div></div>
+              </div>
+              <div>
+                <div class="score-row-label"><span>灵活 P</span><span>计划 J</span></div>
+                <div class="score-bar-track"><div class="score-bar-fill" style="width:55%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section id="quizView" class="section hidden">
+    <!-- QUIZ -->
+    <section id="quizView" class="quiz-section hidden">
       <div class="wrap quiz-shell">
-        <div class="card quiz-card">
-          <div class="quiz-meta">
-            <span id="questionCount">第 1 题 / 共 12 题</span>
-            <span id="progressText">已完成 0%</span>
-          </div>
-          <div class="progress-bar">
-            <div id="progressInner" class="progress-inner"></div>
-          </div>
-          <div class="eyebrow">Quick Test</div>
-          <h2 id="questionTitle" class="question-title"></h2>
-          <div id="answerList" class="answer-list"></div>
+        <div class="quiz-top">
+          <span id="questionCount">第 1 题 / 共 12 题</span>
+          <span id="progressText">0% 完成</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <div class="question-card">
+          <div class="q-label">Quick Test</div>
+          <h2 id="questionTitle" class="q-title"></h2>
+          <div id="answerGrid" class="answer-grid"></div>
         </div>
       </div>
     </section>
 
-    <section id="resultView" class="section hidden">
-      <div class="wrap">
-        <div class="result-grid">
-          <div class="result-main">
-            <div class="result-main-inner">
-              <div class="pill">你的测试结果</div>
-              <div style="margin-top:18px;color:var(--muted);font-size:13px;letter-spacing:0.2em;text-transform:uppercase;">Type Code</div>
-              <div id="resultCode" class="result-type-code"></div>
-              <div id="resultName" class="result-type-name"></div>
-              <div id="resultSummary" class="result-summary"></div>
-              <div class="result-actions">
-                <button id="retryBtn" class="primary-btn">再测一次</button>
-                <button id="shareBtn" class="secondary-btn">生成分享文案</button>
-              </div>
-              <p class="result-note" style="margin-top:18px;">
-                小提示：后面你可以把这里继续升级成分享海报、复制链接，或者接 AI 深度解读。
-              </p>
-            </div>
-          </div>
+    <!-- RESULT -->
+    <section id="resultView" class="result-section hidden">
+      <div class="wrap result-grid">
 
-          <div class="result-side">
-            <div class="card result-block">
-              <h3>你的优势</h3>
-              <div id="strengthList" class="chips"></div>
-            </div>
-            <div class="card result-block">
-              <h3>可能的提醒</h3>
-              <div id="warningList" class="warning-list"></div>
-            </div>
-            <div class="card result-block">
-              <h3>发展建议</h3>
-              <p id="adviceText"></p>
-            </div>
-            <div class="card result-block">
-              <h3>维度得分</h3>
-              <div id="scoreGrid" class="score-grid"></div>
-            </div>
+        <div class="result-main-card">
+          <div class="result-pill">✓ 测试完成</div>
+          <div id="resultCode" class="result-code"></div>
+          <div id="resultName" class="result-name"></div>
+          <p id="resultSummary" class="result-summary"></p>
+          <div class="action-row">
+            <button id="retryBtn" class="btn-primary">再测一次</button>
+            <button id="shareBtn" class="btn-ghost">复制分享文案</button>
+          </div>
+          <p class="result-note">可以继续升级成分享海报、接 AI 深度解读，或生成个性化报告。</p>
+        </div>
+
+        <div class="result-side">
+          <div class="side-card">
+            <h3>你的优势</h3>
+            <div id="strengthList" class="chip-row"></div>
+          </div>
+          <div class="side-card">
+            <h3>可能需要注意</h3>
+            <div id="warningList" class="caution-list"></div>
+          </div>
+          <div class="side-card">
+            <h3>发展建议</h3>
+            <p id="adviceText" class="advice-text"></p>
+          </div>
+          <div class="side-card">
+            <h3>维度得分</h3>
+            <div id="scoreTable" class="score-table"></div>
           </div>
         </div>
+
       </div>
     </section>
+
   </main>
 
-  <footer class="footer">
-    <div class="wrap">纯静态版示例：只要保存为 <strong>index.html</strong> 就能直接部署到 Render 静态站点。</div>
+  <footer>
+    <div class="wrap">保存为 <strong>index.html</strong> 即可直接部署到静态站点。</div>
   </footer>
 
   <script>
@@ -725,36 +860,14 @@
       },
     ];
 
-    const resultMap = {
-      TYPE_A: {
-        title: "商业操盘型",
-        summary: "你更偏向结果导向，善于抓住机会并快速做决策，适合在变化中寻找盈利空间。",
-        strengths: ["判断果断", "机会敏感", "执行力强"],
-        cautions: ["容易冲动", "忽略细节", "风险控制需加强"],
-        advice: "适合交易、商业决策、资源整合类方向。",
-      },
-      TYPE_B: {
-        title: "稳健分析型",
-        summary: "你更偏理性与分析，习惯在行动前做充分判断，风险控制能力较强。",
-        strengths: ["逻辑清晰", "风险意识强", "稳定性高"],
-        cautions: ["行动偏慢", "容易犹豫", "机会把握略弱"],
-        advice: "适合研究、分析、策略制定等岗位。",
-      },
-      TYPE_C: {
-        title: "机会捕捉型",
-        summary: "你对市场变化敏感，擅长捕捉短期机会，灵活应对各种情况。",
-        strengths: ["反应快", "适应强", "执行灵活"],
-        cautions: ["稳定性不足", "容易频繁操作", "需要纪律"],
-        advice: "适合短线、交易、快速决策环境。",
-      },
-    };
+    const resultMap = {};
 
     const fallbackResult = {
       title: "系统型策划者",
-      summary: "你更习惯通过结构化方式理解事情，对复杂问题有自己的拆解方法。",
-      strengths: ["分析力强", "有判断框架", "习惯先想清楚"],
+      summary: "你更习惯通过结构化方式理解事情，对复杂问题有自己的拆解方法，做事前倾向于先想清楚再行动。",
+      strengths: ["分析力强", "有判断框架", "习惯先想清楚", "稳定可靠"],
       cautions: ["容易想太多", "表达偏克制", "偶尔显得疏离"],
-      advice: "适合研究、策略、产品和复杂问题处理。",
+      advice: "适合研究、策略、产品和复杂问题处理。建议在适当场合多表达自己的想法，发挥结构化思维的优势。",
     };
 
     let current = 0;
@@ -764,40 +877,20 @@
     const quizView = document.getElementById("quizView");
     const resultView = document.getElementById("resultView");
     const backHomeBtn = document.getElementById("backHomeBtn");
-    const startBtn = document.getElementById("startBtn");
-    const retryBtn = document.getElementById("retryBtn");
-    const shareBtn = document.getElementById("shareBtn");
-
-    const questionCount = document.getElementById("questionCount");
-    const progressText = document.getElementById("progressText");
-    const progressInner = document.getElementById("progressInner");
-    const questionTitle = document.getElementById("questionTitle");
-    const answerList = document.getElementById("answerList");
-
-    const resultCode = document.getElementById("resultCode");
-    const resultName = document.getElementById("resultName");
-    const resultSummary = document.getElementById("resultSummary");
-    const strengthList = document.getElementById("strengthList");
-    const warningList = document.getElementById("warningList");
-    const adviceText = document.getElementById("adviceText");
-    const scoreGrid = document.getElementById("scoreGrid");
 
     function getScore() {
       const base = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
-      answers.forEach((item) => {
-        Object.entries(item.scores).forEach(([k, v]) => {
-          base[k] += v;
-        });
+      answers.forEach(item => {
+        Object.entries(item.scores).forEach(([k, v]) => { base[k] += v; });
       });
       return base;
     }
 
     function buildType(score) {
-      const ei = score.E >= score.I ? "E" : "I";
-      const sn = score.S >= score.N ? "S" : "N";
-      const tf = score.T >= score.F ? "T" : "F";
-      const jp = score.J >= score.P ? "J" : "P";
-      return `${ei}${sn}${tf}${jp}`;
+      return (score.E >= score.I ? "E" : "I")
+           + (score.S >= score.N ? "S" : "N")
+           + (score.T >= score.F ? "T" : "F")
+           + (score.J >= score.P ? "J" : "P");
     }
 
     function showView(name) {
@@ -805,18 +898,9 @@
       quizView.classList.add("hidden");
       resultView.classList.add("hidden");
       backHomeBtn.classList.add("hidden");
-
-      if (name === "home") {
-        homeView.classList.remove("hidden");
-      }
-      if (name === "quiz") {
-        quizView.classList.remove("hidden");
-        backHomeBtn.classList.remove("hidden");
-      }
-      if (name === "result") {
-        resultView.classList.remove("hidden");
-        backHomeBtn.classList.remove("hidden");
-      }
+      if (name === "home") homeView.classList.remove("hidden");
+      if (name === "quiz") { quizView.classList.remove("hidden"); backHomeBtn.classList.remove("hidden"); }
+      if (name === "result") { resultView.classList.remove("hidden"); backHomeBtn.classList.remove("hidden"); }
     }
 
     function startTest() {
@@ -836,27 +920,24 @@
 
     function renderQuestion() {
       const q = questions[current];
-      const percent = Math.round((answers.length / questions.length) * 100);
-      questionCount.textContent = `第 ${current + 1} 题 / 共 ${questions.length} 题`;
-      progressText.textContent = `已完成 ${percent}%`;
-      progressInner.style.width = percent + "%";
-      questionTitle.textContent = q.text;
-      answerList.innerHTML = "";
+      const pct = Math.round((answers.length / questions.length) * 100);
+      document.getElementById("questionCount").textContent = `第 ${current + 1} 题 / 共 ${questions.length} 题`;
+      document.getElementById("progressText").textContent = `${pct}% 完成`;
+      document.getElementById("progressFill").style.width = pct + "%";
+      document.getElementById("questionTitle").textContent = q.text;
 
-      q.options.forEach((option) => {
+      const grid = document.getElementById("answerGrid");
+      grid.innerHTML = "";
+      q.options.forEach(opt => {
         const btn = document.createElement("button");
         btn.className = "answer-btn";
-        btn.innerHTML = `<strong>${option.text}</strong><small>${option.hint}</small>`;
+        btn.innerHTML = `<span class="a-main">${opt.text}</span><span class="a-hint">${opt.hint}</span>`;
         btn.addEventListener("click", () => {
-          answers.push(option);
-          if (current + 1 >= questions.length) {
-            renderResult();
-          } else {
-            current += 1;
-            renderQuestion();
-          }
+          answers.push(opt);
+          if (current + 1 >= questions.length) renderResult();
+          else { current += 1; renderQuestion(); }
         });
-        answerList.appendChild(btn);
+        grid.appendChild(btn);
       });
     }
 
@@ -864,42 +945,54 @@
       const score = getScore();
       const type = buildType(score);
       const result = resultMap[type] || fallbackResult;
-      showView("result");
-      resultCode.textContent = type;
-      resultName.textContent = result.title;
-      resultSummary.textContent = result.summary;
 
-      strengthList.innerHTML = "";
-      result.strengths.forEach((item) => {
+      showView("result");
+      document.getElementById("resultCode").textContent = type;
+      document.getElementById("resultName").textContent = result.title;
+      document.getElementById("resultSummary").textContent = result.summary;
+
+      const sl = document.getElementById("strengthList");
+      sl.innerHTML = "";
+      result.strengths.forEach(s => {
         const span = document.createElement("span");
         span.className = "chip";
-        span.textContent = item;
-        strengthList.appendChild(span);
+        span.textContent = s;
+        sl.appendChild(span);
       });
 
-      warningList.innerHTML = "";
-      result.cautions.forEach((item) => {
+      const wl = document.getElementById("warningList");
+      wl.innerHTML = "";
+      result.cautions.forEach(c => {
         const div = document.createElement("div");
-        div.className = "warning-item";
-        div.textContent = item;
-        warningList.appendChild(div);
+        div.className = "caution-item";
+        div.textContent = c;
+        wl.appendChild(div);
       });
 
-      adviceText.textContent = result.advice;
+      document.getElementById("adviceText").textContent = result.advice;
 
-      scoreGrid.innerHTML = "";
-      const groups = [
-        { label: "外向 / 内向", value: `E ${score.E} : ${score.I} I` },
-        { label: "现实 / 直觉", value: `S ${score.S} : ${score.N} N` },
-        { label: "理性 / 感受", value: `T ${score.T} : ${score.F} F` },
-        { label: "计划 / 灵活", value: `J ${score.J} : ${score.P} P` },
+      const st = document.getElementById("scoreTable");
+      st.innerHTML = "";
+      const dims = [
+        { label: "外向 E", opp: "内向 I", a: score.E, b: score.I },
+        { label: "现实 S", opp: "直觉 N", a: score.S, b: score.N },
+        { label: "理性 T", opp: "感受 F", a: score.T, b: score.F },
+        { label: "计划 J", opp: "灵活 P", a: score.J, b: score.P },
       ];
-
-      groups.forEach((item) => {
-        const cell = document.createElement("div");
-        cell.className = "score-item";
-        cell.innerHTML = `<strong>${item.label}</strong><span>${item.value}</span>`;
-        scoreGrid.appendChild(cell);
+      dims.forEach(d => {
+        const total = d.a + d.b || 1;
+        const pct = Math.round((d.a / total) * 100);
+        const row = document.createElement("div");
+        row.className = "score-row";
+        row.innerHTML = `
+          <div class="score-row-head">
+            <span>${d.label} (${d.a})</span>
+            <span>${d.opp} (${d.b})</span>
+          </div>
+          <div class="score-track">
+            <div class="score-fill" style="width:${pct}%"></div>
+          </div>`;
+        st.appendChild(row);
       });
 
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -910,23 +1003,17 @@
       const type = buildType(score);
       const result = resultMap[type] || fallbackResult;
       const text = `我测出来是 ${type}｜${result.title}：${result.summary}`;
-
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-          alert("分享文案已复制：\n\n" + text);
-        }).catch(() => {
-          alert(text);
-        });
+        navigator.clipboard.writeText(text).then(() => alert("已复制：\n\n" + text)).catch(() => alert(text));
       } else {
         alert(text);
       }
     }
 
-    startBtn.addEventListener("click", startTest);
-    retryBtn.addEventListener("click", startTest);
-    backHomeBtn.addEventListener("click", resetToHome);
-    shareBtn.addEventListener("click", shareText);
+    document.getElementById("startBtn").addEventListener("click", startTest);
+    document.getElementById("retryBtn").addEventListener("click", startTest);
+    document.getElementById("shareBtn").addEventListener("click", shareText);
+    document.getElementById("backHomeBtn").addEventListener("click", resetToHome);
   </script>
 </body>
 </html>
-
