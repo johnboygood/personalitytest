@@ -726,31 +726,28 @@
     ];
 
     const resultMap = {
-  ESTJ: {
-    code: "TYPE-A",
-    title: "商业操盘型",
-    summary: "你更偏向结果导向，善于抓住机会并快速做决策，适合在变化中寻找盈利空间。",
-    strengths: ["判断果断", "机会敏感", "执行力强"],
-    cautions: ["容易冲动", "忽略细节", "风险控制需加强"],
-    advice: "适合交易、商业决策、资源整合类方向。"
-  },
-  ISTJ: {
-    code: "TYPE-B",
-    title: "稳健分析型",
-    summary: "你更偏理性与分析，习惯在行动前做充分判断，风险控制能力较强。",
-    strengths: ["逻辑清晰", "风险意识强", "稳定性高"],
-    cautions: ["行动偏慢", "容易犹豫", "机会把握略弱"],
-    advice: "适合研究、分析、策略制定等岗位。"
-  },
-  ENTP: {
-    code: "TYPE-C",
-    title: "机会捕捉型",
-    summary: "你对市场变化敏感，擅长捕捉短期机会，灵活应对各种情况。",
-    strengths: ["反应快", "适应强", "执行灵活"],
-    cautions: ["稳定性不足", "容易频繁操作", "需要纪律"],
-    advice: "适合短线、交易、快速决策环境。"
-  }
-};
+      TYPE_A: {
+        title: "商业操盘型",
+        summary: "你更偏向结果导向，善于抓住机会并快速做决策，适合在变化中寻找盈利空间。",
+        strengths: ["判断果断", "机会敏感", "执行力强"],
+        cautions: ["容易冲动", "忽略细节", "风险控制需加强"],
+        advice: "适合交易、商业决策、资源整合类方向。",
+      },
+      TYPE_B: {
+        title: "稳健分析型",
+        summary: "你更偏理性与分析，习惯在行动前做充分判断，风险控制能力较强。",
+        strengths: ["逻辑清晰", "风险意识强", "稳定性高"],
+        cautions: ["行动偏慢", "容易犹豫", "机会把握略弱"],
+        advice: "适合研究、分析、策略制定等岗位。",
+      },
+      TYPE_C: {
+        title: "机会捕捉型",
+        summary: "你对市场变化敏感，擅长捕捉短期机会，灵活应对各种情况。",
+        strengths: ["反应快", "适应强", "执行灵活"],
+        cautions: ["稳定性不足", "容易频繁操作", "需要纪律"],
+        advice: "适合短线、交易、快速决策环境。",
+      },
+    };
 
     const fallbackResult = {
       title: "系统型策划者",
@@ -868,7 +865,7 @@
       const type = buildType(score);
       const result = resultMap[type] || fallbackResult;
       showView("result");
-      resultCode.textContent = result.code || type;
+      resultCode.textContent = type;
       resultName.textContent = result.title;
       resultSummary.textContent = result.summary;
 
@@ -932,3 +929,4 @@
   </script>
 </body>
 </html>
+
