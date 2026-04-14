@@ -7,17 +7,17 @@
   <meta name="description" content="一个可直接部署的纯静态人格测试网站原型。" />
   <style>
     :root {
-      --bg: #020617;
-      --panel: rgba(3, 10, 28, 0.72);
-      --panel-2: rgba(8, 18, 40, 0.78);
-      --line: rgba(56, 189, 248, 0.16);
-      --text: #e6f6ff;
-      --muted: #93b8cc;
-      --primary: #00d4ff;
-      --primary-2: #6d5efc;
-      --green: #00f5c4;
-      --shadow: 0 20px 60px rgba(0,0,0,0.42);
-      --radius: 28px;
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --panel-2: #f1f5f9;
+      --line: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #2563eb;
+      --primary-2: #7c3aed;
+      --green: #10b981;
+      --shadow: 0 10px 30px rgba(0,0,0,0.06);
+      --radius: 20px;
       --max: 1180px;
     }
 
@@ -27,11 +27,7 @@
       margin: 0;
       font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at top, rgba(0,212,255,0.18), transparent 24%),
-        radial-gradient(circle at top right, rgba(109,94,252,0.16), transparent 26%),
-        radial-gradient(circle at bottom left, rgba(0,245,196,0.08), transparent 22%),
-        linear-gradient(180deg, #020617 0%, #061120 45%, #020617 100%);
+      background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
       min-height: 100vh;
     }
 
@@ -121,13 +117,10 @@
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(4,12,32,0.86), rgba(3,10,28,0.72));
+      background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      position: relative;
-      overflow: hidden;
     }
 
     .card::before {
@@ -733,63 +726,31 @@
     ];
 
     const resultMap = {
-      SB01: {
-        title: "执行型掌舵者",
-        summary: "你偏向果断、直接、重效率，擅长推进事情落地。你身上最明显的特质，是一旦认定方向，就会很自然地进入执行状态。",
-        strengths: ["行动力强", "擅长组织", "目标感清晰"],
-        cautions: ["容易显得强势", "对低效率容忍度低", "偶尔忽略情绪"],
-        advice: "适合在有目标、有节奏、有责任边界的环境中发挥。",
-      },
-      SB02: {
-        title: "氛围型组织者",
-        summary: "你既愿意主动连接他人，也愿意为团队秩序负责。你经常是那个能把事情和关系一起顾上的人。",
-        strengths: ["沟通自然", "照顾关系", "执行稳定"],
-        cautions: ["容易过度在意评价", "有时太顾全大局", "不擅长拒绝"],
-        advice: "适合承担协调、对接、服务和团队推进类角色。",
-      },
-      SB03: {
-        title: "战略型推动者",
-        summary: "你偏向结果导向，喜欢做决策，也习惯从更高维度看问题。很多时候你会下意识去判断：这件事最有效的解法是什么。",
-        strengths: ["格局感强", "推进力高", "敢拍板"],
-        cautions: ["容易显得压迫感强", "节奏快于周围人", "不耐烦"],
-        advice: "适合带队、定方向、搭框架，再配合稳健执行型伙伴。",
-      },
-      SB04: {
-        title: "创意型破局者",
-        summary: "你很擅长发现新可能，脑子转得快，喜欢从不同角度拆解规则，往往是群体里那个点子最多的人。",
-        strengths: ["点子多", "反应快", "善于破局"],
-        cautions: ["容易三分钟热度", "收尾不足", "不爱重复"],
-        advice: "适合创新、策划、增长、内容和需要快速试错的场景。",
-      },
-      SB05: {
-        title: "稳定型守成者",
-        summary: "你更重视秩序、责任和可验证的事实，是非常可靠的类型。别人可能未必总能注意到你，但往往最放心把事情交给你。",
-        strengths: ["认真负责", "细节稳", "执行严谨"],
-        cautions: ["不喜欢变化", "表达偏克制", "容易保守"],
-        advice: "适合规则清晰、流程明确、重质量和稳定性的岗位。",
-      },
-      SB06: {
-        title: "温和型支撑者",
-        summary: "你细腻、稳定、可靠，往往会默默把事情照顾周全。你不一定最抢眼，但常常是团队里最不可替代的那个人。",
-        strengths: ["体贴细腻", "配合度高", "耐心强"],
-        cautions: ["容易压抑自己", "回避冲突", "不爱争取"],
-        advice: "适合支持、服务、运营、行政、客户维护等角色。",
-      },
-      SB07: {
-        title: "系统型策划者",
-        summary: "你偏向独立思考，擅长搭建逻辑模型和长期规划。很多人眼里的复杂问题，在你这里更像是等待拆解的系统。",
-        strengths: ["思考深入", "战略意识强", "擅长抽象"],
-        cautions: ["容易显得疏离", "不爱解释", "对低质量交流耐心低"],
-        advice: "适合研究、策略、产品、架构和复杂问题拆解。",
-      },
-      SB08: {
-        title: "理想型感受者",
-        summary: "你有自己的价值感和内在世界，重视真诚与意义。你不是为了迎合外界而活，更在意一件事是否真的打动自己。",
-        strengths: ["有同理心", "有审美和表达", "价值感明确"],
-        cautions: ["容易内耗", "不爱硬碰硬", "执行节奏波动"],
-        advice: "适合内容、创意、品牌、教育、咨询类工作。",
-      },
-    };
+  ESTJ: {
+    code: "TYPE-A",
+    title: "商业操盘型",
+    summary: "你更偏向结果导向，善于抓住机会并快速做决策，适合在变化中寻找盈利空间。",
+    strengths: ["判断果断", "机会敏感", "执行力强"],
+    cautions: ["容易冲动", "忽略细节", "风险控制需加强"],
+    advice: "适合交易、商业决策、资源整合类方向。"
+  },
+  ISTJ: {
+    code: "TYPE-B",
+    title: "稳健分析型",
+    summary: "你更偏理性与分析，习惯在行动前做充分判断，风险控制能力较强。",
+    strengths: ["逻辑清晰", "风险意识强", "稳定性高"],
+    cautions: ["行动偏慢", "容易犹豫", "机会把握略弱"],
+    advice: "适合研究、分析、策略制定等岗位。"
+  },
+  ENTP: {
+    code: "TYPE-C",
+    title: "机会捕捉型",
+    summary: "你对市场变化敏感，擅长捕捉短期机会，灵活应对各种情况。",
+    strengths: ["反应快", "适应强", "执行灵活"],
+    cautions: ["稳定性不足", "容易频繁操作", "需要纪律"],
+    advice: "适合短线、交易、快速决策环境。"
+  }
+};
 
     const fallbackResult = {
       title: "系统型策划者",
@@ -907,7 +868,7 @@
       const type = buildType(score);
       const result = resultMap[type] || fallbackResult;
       showView("result");
-      resultCode.textContent = type;
+      resultCode.textContent = result.code || type;
       resultName.textContent = result.title;
       resultSummary.textContent = result.summary;
 
