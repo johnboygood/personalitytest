@@ -8,15 +8,15 @@
   <style>
     :root {
       --bg: #020617;
-      --panel: rgba(15, 23, 42, 0.72);
-      --panel-2: rgba(30, 41, 59, 0.65);
-      --line: rgba(255,255,255,0.1);
-      --text: #f8fafc;
-      --muted: #cbd5e1;
-      --primary: #6366f1;
-      --primary-2: #ec4899;
-      --green: #10b981;
-      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --panel: rgba(3, 10, 28, 0.72);
+      --panel-2: rgba(8, 18, 40, 0.78);
+      --line: rgba(56, 189, 248, 0.16);
+      --text: #e6f6ff;
+      --muted: #93b8cc;
+      --primary: #00d4ff;
+      --primary-2: #6d5efc;
+      --green: #00f5c4;
+      --shadow: 0 20px 60px rgba(0,0,0,0.42);
       --radius: 28px;
       --max: 1180px;
     }
@@ -28,9 +28,10 @@
       font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top, rgba(99,102,241,0.22), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(236,72,153,0.14), transparent 28%),
-        linear-gradient(180deg, #020617 0%, #0f172a 45%, #020617 100%);
+        radial-gradient(circle at top, rgba(0,212,255,0.18), transparent 24%),
+        radial-gradient(circle at top right, rgba(109,94,252,0.16), transparent 26%),
+        radial-gradient(circle at bottom left, rgba(0,245,196,0.08), transparent 22%),
+        linear-gradient(180deg, #020617 0%, #061120 45%, #020617 100%);
       min-height: 100vh;
     }
 
@@ -47,8 +48,9 @@
       top: 0;
       z-index: 20;
       backdrop-filter: blur(16px);
-      background: rgba(2,6,23,0.72);
+      background: rgba(2,6,23,0.78);
       border-bottom: 1px solid var(--line);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.18);
     }
 
     .topbar-inner {
@@ -73,7 +75,7 @@
       place-items: center;
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       font-weight: 800;
-      box-shadow: var(--shadow);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 0 30px rgba(0,212,255,0.22);
     }
 
     .brand small {
@@ -112,31 +114,28 @@
 
     .primary-btn,
     .secondary-btn {
-      border: 0;
-      padding: 14px 20px;
-      border-radius: 18px;
-      cursor: pointer;
-      transition: 0.18s ease;
-    }
-
-    .primary-btn {
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      color: white;
-      box-shadow: 0 16px 40px rgba(99,102,241,0.28);
-    }
-
-    .secondary-btn {
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.04);
       color: var(--text);
       border: 1px solid var(--line);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
     }
 
     .card {
-      background: var(--panel);
+      background: linear-gradient(180deg, rgba(4,12,32,0.86), rgba(3,10,28,0.72));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.06), transparent 30%, transparent 70%, rgba(109,94,252,0.06));
+      pointer-events: none;
     }
 
     .hidden { display: none !important; }
@@ -177,10 +176,11 @@
     }
 
     .gradient {
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      background: linear-gradient(135deg, var(--primary), #9ae6ff 45%, var(--primary-2));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      text-shadow: 0 0 18px rgba(0,212,255,0.18);
     }
 
     .lead {
@@ -231,6 +231,7 @@
       border-radius: 26px;
       background: linear-gradient(135deg, var(--primary), var(--primary-2));
       padding: 1px;
+      box-shadow: 0 0 40px rgba(0,212,255,0.12);
     }
 
     .mock-inner {
@@ -277,6 +278,15 @@
     .result-side,
     .result-main {
       padding: 28px;
+    }
+
+    .quiz-card {
+      background-image:
+        linear-gradient(rgba(56,189,248,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,0.06) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(4,12,32,0.94), rgba(3,10,28,0.8));
+      background-size: 24px 24px, 24px 24px, auto;
+      background-position: center center, center center, center center;
     }
 
     .quiz-meta {
@@ -495,8 +505,8 @@
       <div class="brand">
         <div class="brand-mark">测</div>
         <div>
-          <small>personality lab</small>
-          <strong>SBTI 风格人格测试</strong>
+          <small>neural profile system</small>
+          <strong>SBTI 科技风人格测试</strong>
         </div>
       </div>
       <button id="backHomeBtn" class="ghost-btn hidden">返回首页</button>
@@ -507,13 +517,13 @@
     <section id="homeView" class="hero">
       <div class="wrap hero-grid">
         <div class="card hero-copy">
-          <div class="pill">12 道题 · 约 2 分钟 · 纯静态版可直接部署</div>
+          <div class="pill">12 道题 · 约 2 分钟 · 赛博科技风静态原型</div>
           <h1>
-            做一个 <span class="gradient">能上线</span><br />
+            做一个 <span class="gradient">未来感更强</span><br />
             的人格测试网站
           </h1>
           <p class="lead">
-            这是一版不用 React、也不用后端的纯静态测试站原型。你后面只需要替换题目、结果名称和文案风格，就能快速做成自己的测试产品。
+            这是一版不用 React、也不用后端的纯静态测试站原型。整体视觉改成了偏赛博、偏科技产品的方向，后面你只需要继续替换题目、结果名称和文案，就能快速做成自己的测试产品。
           </p>
           <div class="action-row">
             <button id="startBtn" class="primary-btn">立即开始测试</button>
@@ -537,7 +547,7 @@
         </div>
 
         <div class="card hero-preview">
-          <div class="pill">示例结果卡</div>
+          <div class="pill">示例结果卡 / Result Preview</div>
           <div class="mock-result" style="margin-top:16px;">
             <div class="mock-inner">
               <div style="color:var(--muted);font-size:14px;">你的类型可能是</div>
@@ -628,15 +638,15 @@
         id: 1,
         text: "遇到新环境时，你通常会怎么做？",
         options: [
-          { text: "打个胶先", hint: "更偏外向型表达", scores: { E: 2 } },
-          { text: "先观察一会儿再决定是否打胶", hint: "更偏内向型进入方式", scores: { I: 2 } },
+          { text: "先主动和别人聊起来", hint: "更偏外向型表达", scores: { E: 2 } },
+          { text: "先观察一会儿再决定", hint: "更偏内向型进入方式", scores: { I: 2 } },
         ],
       },
       {
         id: 2,
         text: "做决定时，你更依赖：",
         options: [
-          { text: "打胶、逻辑和可验证的信息", hint: "更偏理性判断", scores: { T: 2 } },
+          { text: "数据、逻辑和可验证的信息", hint: "更偏理性判断", scores: { T: 2 } },
           { text: "感受、关系和整体氛围", hint: "更偏感受判断", scores: { F: 2 } },
         ],
       },
@@ -723,56 +733,56 @@
     ];
 
     const resultMap = {
-      ESTJ: {
+      SB01: {
         title: "执行型掌舵者",
         summary: "你偏向果断、直接、重效率，擅长推进事情落地。你身上最明显的特质，是一旦认定方向，就会很自然地进入执行状态。",
         strengths: ["行动力强", "擅长组织", "目标感清晰"],
         cautions: ["容易显得强势", "对低效率容忍度低", "偶尔忽略情绪"],
         advice: "适合在有目标、有节奏、有责任边界的环境中发挥。",
       },
-      ESFJ: {
+      SB02: {
         title: "氛围型组织者",
         summary: "你既愿意主动连接他人，也愿意为团队秩序负责。你经常是那个能把事情和关系一起顾上的人。",
         strengths: ["沟通自然", "照顾关系", "执行稳定"],
         cautions: ["容易过度在意评价", "有时太顾全大局", "不擅长拒绝"],
         advice: "适合承担协调、对接、服务和团队推进类角色。",
       },
-      ENTJ: {
+      SB03: {
         title: "战略型推动者",
         summary: "你偏向结果导向，喜欢做决策，也习惯从更高维度看问题。很多时候你会下意识去判断：这件事最有效的解法是什么。",
         strengths: ["格局感强", "推进力高", "敢拍板"],
         cautions: ["容易显得压迫感强", "节奏快于周围人", "不耐烦"],
         advice: "适合带队、定方向、搭框架，再配合稳健执行型伙伴。",
       },
-      ENTP: {
+      SB04: {
         title: "创意型破局者",
         summary: "你很擅长发现新可能，脑子转得快，喜欢从不同角度拆解规则，往往是群体里那个点子最多的人。",
         strengths: ["点子多", "反应快", "善于破局"],
         cautions: ["容易三分钟热度", "收尾不足", "不爱重复"],
         advice: "适合创新、策划、增长、内容和需要快速试错的场景。",
       },
-      ISTJ: {
+      SB05: {
         title: "稳定型守成者",
         summary: "你更重视秩序、责任和可验证的事实，是非常可靠的类型。别人可能未必总能注意到你，但往往最放心把事情交给你。",
         strengths: ["认真负责", "细节稳", "执行严谨"],
         cautions: ["不喜欢变化", "表达偏克制", "容易保守"],
         advice: "适合规则清晰、流程明确、重质量和稳定性的岗位。",
       },
-      ISFJ: {
+      SB06: {
         title: "温和型支撑者",
         summary: "你细腻、稳定、可靠，往往会默默把事情照顾周全。你不一定最抢眼，但常常是团队里最不可替代的那个人。",
         strengths: ["体贴细腻", "配合度高", "耐心强"],
         cautions: ["容易压抑自己", "回避冲突", "不爱争取"],
         advice: "适合支持、服务、运营、行政、客户维护等角色。",
       },
-      INTJ: {
+      SB07: {
         title: "系统型策划者",
         summary: "你偏向独立思考，擅长搭建逻辑模型和长期规划。很多人眼里的复杂问题，在你这里更像是等待拆解的系统。",
         strengths: ["思考深入", "战略意识强", "擅长抽象"],
         cautions: ["容易显得疏离", "不爱解释", "对低质量交流耐心低"],
         advice: "适合研究、策略、产品、架构和复杂问题拆解。",
       },
-      INFP: {
+      SB08: {
         title: "理想型感受者",
         summary: "你有自己的价值感和内在世界，重视真诚与意义。你不是为了迎合外界而活，更在意一件事是否真的打动自己。",
         strengths: ["有同理心", "有审美和表达", "价值感明确"],
